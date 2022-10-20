@@ -1,0 +1,7 @@
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\bin\Debug\VeriYapıları2022.exe.config
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\bin\Debug\VeriYapıları2022.exe
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\bin\Debug\VeriYapıları2022.pdb
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\obj\Debug\VeriYapıları2022.csproj.AssemblyReference.cache
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\obj\Debug\VeriYapıları2022.csproj.CoreCompileInputs.cache
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\obj\Debug\VeriYapıları2022.exe
+C:\Users\yusuf\source\repos\VeriYapıları2022\VeriYapıları2022\obj\Debug\VeriYapıları2022.pdb
