@@ -31,6 +31,7 @@ namespace VeriYapıları2022
         {
             public int data;
             public Block next;
+            public Block prev;
         }
 
         #endregion
@@ -641,20 +642,20 @@ namespace VeriYapıları2022
             #region TEK YÖNLÜ LİNKED LİST
 
             #region Tekli Linked List OLuşturma
-            Block head = null; //baş
-            Block last = null; //son
-            for (int i = 0; i < 10; i++) //Linked List Oluşturma
-            {
-                Block temp = new Block();
-                temp.data = i;
-                temp.next = null;
+            /* Block head = null; //baş
+             Block last = null; //son
+             for (int i = 0; i < 10; i++) //Linked List Oluşturma
+             {
+                 Block temp = new Block();
+                 temp.data = i;
+                 temp.next = null;
 
-                if (head == null) head = temp;
+                 if (head == null) head = temp;
 
-                else last.next = temp;
+                 else last.next = temp;
 
-                last = temp;
-            }
+                 last = temp;
+             }*/
             #endregion
 
             #region Tekli Linked List Yazdırma
@@ -802,7 +803,7 @@ namespace VeriYapıları2022
                  t = t.next;
                  Console.WriteLine(t.data);
              }
-*/             
+*/
             #endregion
 
             #region Tekli Linked List Sondan Eleman Silme
@@ -1056,6 +1057,8 @@ namespace VeriYapıları2022
 
 
 
+
+
             //head ilk elemanına bakmaktadır 
             //bu listenin aynısını ilk elemanı first olacak şekilde kopyalayınız
             //bu listenin elemanını tersten ekleyiniz
@@ -1063,6 +1066,192 @@ namespace VeriYapıları2022
             #endregion
 
             #region ÇİFT YÖNLÜ LİNKED LİST
+
+            #region Çiftli Linked List Elemanları Oluşturma
+            Block head = null; //baş
+            Block last = null; //son
+
+            for (int i = 0; i < 10; i++) //Linked List Oluşturma
+            {
+                Block temp = new Block();
+                temp.data = i;
+                temp.next = null;
+
+                if (head == null)
+                {
+                    head = temp;
+                    last = temp;
+                }
+
+                else
+                {
+                    last.next = temp;
+                    temp.prev = last;
+                }
+
+                last = temp;
+            }
+
+
+            #endregion
+
+            #region Çiftli Linked List Elemanları Yazdırma
+            /*
+            Block t = head;
+
+            while (t!=null)
+            {
+                Console.WriteLine(t.data);
+                t = t.next;
+            }
+
+            */
+            #endregion
+
+            #region Çiftli Linked List En Başa Eleman Ekleme
+            /*
+            Block ekle = new Block();
+            ekle.data = 555;
+
+            //Ekleme ---------------------
+            ekle.next = head;
+            ekle.prev = null;
+            head.prev = ekle;
+            head = ekle;
+            //---------------------
+
+            Block t = head;
+
+            while (t!=null)
+            {
+                Console.WriteLine(t.data);
+                t = t.next;
+            }
+
+            */
+            #endregion
+
+            #region Çiftli Linked List En Sona Eleman Ekleme
+            /*
+            Block ekle = new Block();
+            ekle.data = 555;
+
+            //Ekleme --------------------- 8 --> 9 --> 555 --> null
+            ekle.next = null;
+            ekle.prev = last;
+            last.next = ekle;
+            //---------------------
+
+            Block t = head;
+
+            while (t!=null)
+            {
+                Console.WriteLine(t.data);
+                t = t.next;
+            }
+            */
+
+            #endregion
+
+            #region Çiftli Linked List Araya Eleman Ekleme
+            /*
+            Block ekle = new Block();
+            ekle.data = 555;
+
+            Block t = head;
+
+            while (t != null)
+            {
+                Console.WriteLine(t.data);
+
+                if (t.data == 5)
+                {
+                    ekle.next = t.next;
+                    ekle.prev = t;
+
+                    t.next.prev = ekle;
+                    t.next = ekle;
+                }
+
+                t = t.next;
+            }
+            */
+
+            #endregion
+
+            #region Çiftli Linked List En Baştan Eleman Sİlme
+            /*
+            Block t = head;
+
+            t = t.next;
+            t.next.prev = null;
+
+            while (t != null)
+            {
+                Console.WriteLine(t.data);
+               
+                t = t.next;
+            }*/
+
+            #endregion
+
+            #region Çiftli Linked List En Sondan Eleman Sİlme
+            /*
+            //Tekli Linked List İle Aynı
+
+            Block t = head;
+            while (t != null) //Veya burası t.next!=null yapılabilir
+            {
+                Console.WriteLine(t.data);
+                if (t.next.next==null)
+                {
+                    t = last;
+                    last.prev = t;
+                    last = t;
+                }
+                t = t.next;
+            }
+            */
+            #endregion
+
+            #region Çiftli Linked List Aradan Eleman Sİlme
+            /*
+
+            Block t = head;
+
+            while (t != null)
+            {
+                Console.WriteLine(t.data);
+
+                if (t.next.data == 5) //Çalışıyor ama NullReferenceException hatası fırlatıyor !! Hatasız çalışması için t.data==4 şeklinde yazılması lazım
+                {
+                    t.next = t.next.next;
+                    t.next.next.prev = t;
+                }
+                
+
+                t = t.next;
+            }
+            */
+            #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             #endregion
 
