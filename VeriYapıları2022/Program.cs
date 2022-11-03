@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace VeriYapıları2022
 {
@@ -58,7 +59,28 @@ namespace VeriYapıları2022
         #endregion
 
 
+        #region STACK METOTLARI
 
+        //DİZİ İLE STACK OLUŞTURMA
+
+        static int[] stack = new int[100];
+        static int sp = -1; //STACK POİNT herzaman -1 den başlar
+
+        static void push(int data) // STACK'a eleman ekle
+        {
+            sp++;
+            stack[sp] = data;
+            //stack[++sp]=data; şeklinde de yazılabilir
+        }
+
+        static int pop() //STACK'tan eleman çıkarma
+        {
+            int data = stack[sp];
+            sp--;
+            return data;
+        }
+
+        #endregion
 
         static void Main(string[] args)
         {
@@ -1118,7 +1140,7 @@ namespace VeriYapıları2022
             #endregion
 
             #region Çiftli Linked List Elemanları Oluşturma ve Yazdırma //Daha Performanslı
-
+            /*
             Block head = new Block();
             Block last = null;
 
@@ -1137,7 +1159,7 @@ namespace VeriYapıları2022
 
                 //yazdırList(temp); // Yazdırma
 
-            }
+            }*/
 
 
             #endregion
@@ -1672,15 +1694,120 @@ namespace VeriYapıları2022
             */
             #endregion
 
-      
-            #endregion
-
-
-            #region STACK
-
 
             #endregion
 
+
+            #region STACK 
+            //FİLO--> First in Last out --> İlk giren Son çıkar
+            //LİFO--> Last in First out --> Son giren İlk çıkar
+            //işletim sistemleri, oyun yazılımları, bazı yazılımlarda, compiler, infix ve postfix yapılarında, metot çağırmalarında stack kullanır
+
+
+            #region Push Pop
+            /*
+         push(1);
+         push(2);
+         push(3);
+         push(4);
+         Console.WriteLine(pop());
+         Console.WriteLine(pop());
+         Console.WriteLine(pop());
+         Console.WriteLine(pop());
+
+            for (int i = 0; i < 100; i++)
+            {
+                push(i);
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                Console.WriteLine(  pop()); 
+            }
+            */
+            #endregion
+
+            #region Stack Palindromik Sayı
+            /*
+            string metin = "ey edip adanada pide ye";
+            for (int i = 0; i < metin.Length; i++)
+            {
+                push(metin[i]);
+            }
+
+
+            for (int i = 0; i < metin.Length; i++)
+            {
+                if (metin[i] == pop()) Console.WriteLine("Palindrom");
+                else Console.WriteLine("Palindrom değil");
+
+            }
+            */
+            #endregion
+
+            #region STACK Substring Bulma 
+            /*
+            Stack<string> st = new Stack<string>();
+            st.Push(@"C:\"); //Bilgisayarınızdaki c dizinini stack'a ekler
+
+            while (st.Count > 0)
+            {
+                string path = st.Pop();
+                string[] dizinler = Directory.GetDirectories(path); //Direcctory'yi kullanabilmek için en üstte !! using System.IO !! eklenmeli
+                string[] dosyalar = Directory.GetFiles(path);
+
+                for (int i = 0; i < dizinler.Length; i++)
+                {
+                    st.Push(dizinler[i]);
+                }
+                foreach (string item in dosyalar)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            */
+
+            #endregion
+
+            #region Stack Parantez Problemi //Açılan parantez kapatılmışmı
+            /*
+            string s = "([])";
+
+            string left = "{[("; //burada sağ ve sol parantezlerin sıraları aynı olmalı
+            string right = "}])";
+            int hata = 0;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                // IndexOf --> s'in içindeki karakter left'in içerisindeki herhangi bir karakterle eşleşirse bulunan stringin (leftin içindeki)indisini döner 
+                int indis = left.IndexOf(s[i].ToString());
+                if (indis != -1)
+                {
+                    push(right[indis]);
+                }
+                else
+                {
+                    indis = right.IndexOf(s[i].ToString());
+                    if (indis != -1)
+                    {
+                        if (pop() != right[indis])
+                        {
+                            hata = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (hata == 1)
+            {
+                Console.WriteLine("Hatalı");
+            }
+            else
+            {
+                Console.WriteLine("Hatasız");
+            }*/
+            #endregion
+
+            #endregion
 
             Console.ReadLine();
 
