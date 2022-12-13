@@ -23,9 +23,6 @@ namespace VeriYapıları2022
         }
         #endregion
 
-
-
-
         #region LİNKED LİST METOTLARI
 
         class Block
@@ -58,7 +55,6 @@ namespace VeriYapıları2022
 
         #endregion
 
-
         #region STACK METOTLARI
 
         //DİZİ İLE STACK OLUŞTURMA
@@ -80,10 +76,199 @@ namespace VeriYapıları2022
             return data;
         }
 
+        static int peek()
+        {
+            return stack[sp];
+        }
+
+        static int carp(int a, int b)
+        {
+            return a * b;
+        }
+        static int bolme(int a, int b)
+        {
+            return a / b;
+        }
+        static int fark(int a, int b)
+        {
+            return a - b;
+        }
+        static int topla(int a, int b)
+        {
+            return a + b;
+        }
         #endregion
+
+        #region QUEUEU METOTLARI
+
+        static int[] queue = new int[100];
+        static int front = 0;
+        static int rear = -1;
+
+        static int count()
+        {
+            return rear - front + 1;
+        }
+
+        static void move()
+        {
+            for (int i = 0; i <= count(); i++)
+            {
+                queue[i] = queue[front+i];
+            }
+            rear = count() - 1;
+            front = 0;
+        }
+
+        static void enqueue(int data) //Kuyruğa veri ekleme
+        {
+            rear++; 
+            if (rear==queue.Length) 
+            {
+                move();
+            }
+            queue[rear] = data;
+        }
+        static int dequeue() //Kuyruktan veri çıkarma
+        {
+            int data = queue[front];
+            front++;
+            front = front % queue.Length;
+            return data;
+        }
+
+        static Block rearNew = null;
+        static Block frontNew = null;
+
+        static void enqueueLinked(int queData)
+        {
+            Block bl = new Block();
+            bl.data = queData;
+            bl.next = null;
+            bl.prev = null;
+
+            if (rearNew==null)
+            {
+                rearNew = bl;
+                frontNew = bl;
+            }
+            else
+            {
+                rearNew.next = bl;
+                bl.prev = rearNew;
+                rearNew = bl;
+            }
+        }
+
+        static int dequeueLinked()
+        {
+            int queData = frontNew.data;
+            frontNew = frontNew.next;
+            if (frontNew==null)
+            {
+                rearNew = null;
+            }
+            return queData;
+        }
+
+
+        #endregion
+
+        #region TREE METOTLARI
+
+        static Block frontTree = null;
+        static Block rearTree = null;
+        static int[] Btree = new int[100];
+
+        class btree
+        {
+            public int data;
+            public btree left;
+            public btree right;
+            public btree(int data)
+            {
+                this.data = data;
+                left = null;
+                right = null;
+            }
+        }
+        static void btreeYaz(int parent)
+        {
+            Console.WriteLine(Btree[parent*2+1]);
+            Console.WriteLine(Btree[parent*2+2]);
+        }
+
+        static void yazRecursiveBtree(int[] btree, int parent)
+        {
+            if (parent>= 15) return;
+
+            Console.WriteLine(btree[parent]);
+            yazRecursiveBtree(btree,2*parent+1);
+            yazRecursiveBtree(btree,2*parent+2);
+            
+        }
+
+        static int treeSearch(int arananDeger, int root)
+        {
+            if (root >= Btree.Length) return 0;
+            if (root ==Btree[root]) return 1;
+
+            return treeSearch(arananDeger, root * 2 + 1) + treeSearch(arananDeger, root * 2 + 2);
+        }
+
+        #endregion
+
+        #region ÖDEV METOTLARI
+        static int odevMetot(int[,] dizi, int row, int column)
+        {
+
+            if (row < 0 || column < 0 || row >= 9 || column >= 3) return 0;
+
+            if (dizi[row, column] == 0) return 0;
+
+            int count = dizi[row, column]--;
+
+            count += odevMetot(dizi, row + 1, column);
+            count += odevMetot(dizi, row - 1, column);
+            count += odevMetot(dizi, row, column + 1);
+            count += odevMetot(dizi, row, column - 1);
+            count += odevMetot(dizi, row + 1, column + 1);
+            count += odevMetot(dizi, row - 1, column - 1);
+            count += odevMetot(dizi, row - 1, column + 1);
+            count += odevMetot(dizi, row + 1, column - 1);
+
+            return count;
+        }
+
+        static int enBuyukBolge(int[,] dizi)
+        {
+            int max = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    max = Math.Max(max, odevMetot(dizi, i, j));
+                }
+            }
+            return max;
+        }
+        #endregion
+
+
+
+
+
+
 
         static void Main(string[] args)
         {
+            //Dizilerde adres bulma
+            //int[b1,b2,b3,b4,b5,b6]
+            //int[i1,i2,i3,i4,i5,i6]
+
+            //i1*b2*b3*b4*b5*b6*4 + i2*b3*b4*b5*b6*4 + i3*b4*b5*b6*4 + i4*b5*b6*4 + i5*b6*4 + i6*4
+
+
             #region ÇOK BOYUTLU DİZİLER 
 
             #region  dizinin en büyük elemanının tek döngü ile bulun
@@ -416,7 +601,7 @@ namespace VeriYapıları2022
 
             #region Üst ve alt üçgen hesaplama
             /*
-             Input : matrix[3][3] = {1 2 3
+             Input : dizi[3][3] = {1 2 3
                                      4 5 6
                                      7 8 9}
 
@@ -679,25 +864,68 @@ namespace VeriYapıları2022
             Console.WriteLine(enB3);*/
             #endregion
 
+            #region Dizi içerisinde en çok tekrar eden sayı
+            /*
+                        int[,] dizi = { { 0,1,1 },
+                                        { 1,1,0 } };
+                                         
+
+                        int a = 0;
+                        int b = 0;
+                        int enB = 0;
+
+                        while (a < 2)
+                        {
+                            int tekrar = 0;
+
+                            for (int i = 0; i < 2; i++)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    if (dizi[a, b] == dizi[i, j] )
+                                    {
+                                        tekrar++;
+                                    }
+                                }
+
+                                if (enB < tekrar)
+                                {
+                                    enB = tekrar;
+                                }
+                            }
+
+                            b++;
+                            if (b == 2)
+                            {
+                                a++;
+                                b = 0;
+                            }
+
+                        }
+            
+
+            Console.WriteLine(enB);*/
+            #endregion
+
             #endregion
 
             #region TEK YÖNLÜ LİNKED LİST
 
             #region Tekli Linked List OLuşturma
-            /* Block head = null; //baş
-             Block last = null; //son
-             for (int i = 0; i < 10; i++) //Linked List Oluşturma
-             {
-                 Block temp = new Block();
-                 temp.data = i;
-                 temp.next = null;
+            /*Block head = null; //baş
+            Block last = null; //son
+            for (int i = 0; i < 10; i++) //Linked List Oluşturma
+            {
+                Block temp = new Block();
+                temp.data = i;
+                temp.next = null;
 
-                 if (head == null) head = temp;
+                if (head == null) head = temp;
 
-                 else last.next = temp;
+                else last.next = temp;
 
-                 last = temp;
-             }*/
+                last = temp;
+            }*/
             #endregion
 
             #region Tekli Linked List Yazdırma
@@ -874,7 +1102,7 @@ namespace VeriYapıları2022
                 if (enB < t2.data)
                 {
                     enB2 = enB;
-                    enB2 = t2.data; //en büyük elemanını bul
+                    enB = t2.data; //en büyük elemanını bul
 
                 }
                 else if (enB < t2.data && t2.data != enB)
@@ -886,8 +1114,29 @@ namespace VeriYapıları2022
                 t2 = t2.next;
             }
             Console.WriteLine("En B:{0}", enB);
-            Console.WriteLine("En B2:{0}", enB2);
-            */
+            Console.WriteLine("En B2:{0}", enB2);*/
+
+            //-------------------------- İKİNCİ ÇÖZÜM ------------------
+            /*    int enB = 0;
+              int enB2 = 0;
+
+              while (t != null) 
+               {
+                  if (enB<t.data)
+                  {
+                      enB2 = enB;
+                      enB = t.data;
+                  }
+                  if (enB2<enB && t.data!=enB)
+                  {
+                      enB2 = enB;
+                  }
+                   Console.WriteLine(t.data);
+                   t = t.next;
+               }
+              Console.WriteLine("enBüyük:"+enB);
+              Console.WriteLine("enBüyük2:"+enB2);*/
+
             #endregion
 
             #region Tekli Linked Listi Diziye Ters ve Düz Kopyalama Kopyalama
@@ -927,18 +1176,31 @@ namespace VeriYapıları2022
             }*/
             #endregion
 
-            #region Tekli Linked Listi Tekli Linked Liste Kopyalama //DEVAM ET
+            #region Tekli Linked Listi Tekli Linked Liste Kopyalama 
             /*
-            Block t = head;
+             Block first = head;
 
-            Block first = null;
 
-            while (head!=null) //Asıl Liste
+            while (first != null)
             {
-                Console.WriteLine(t.data);
-                t = t.next;
-            }
+                Block kopya = new Block();
+                kopya.data = first.data;
+                kopya.next = null;
 
+                if (first == null)
+                {
+                    first = kopya;
+                    last = kopya;
+                }
+                else
+                {
+                    last.next = kopya;
+                }
+
+
+                first = first.next;
+                Console.WriteLine("kopya:" + kopya.data);
+            }
             */
             #endregion
 
@@ -1111,30 +1373,30 @@ namespace VeriYapıları2022
 
             #region Çiftli Linked List Elemanları Oluşturma
             /*
-             Block head = null; //baş
-             Block last = null; //son
+                        Block head = null; //baş
+                         Block last = null; //son
 
-             for (int i = 0; i < 10; i++) //Linked List Oluşturma
-             {
-                 Block temp = new Block();
-                 temp.data = i;
-                 temp.next = null;
+                         for (int i = 0; i < 10; i++) //Linked List Oluşturma
+                         {
+                             Block temp = new Block();
+                             temp.data = i;
+                             temp.next = null;
 
 
-                 if (head == null)
-                 {
-                     head = temp;
-                     last = temp;
-                 }
+                             if (head == null)
+                             {
+                                 head = temp;
+                                 last = temp;
+                             }
 
-                 else
-                 {
-                     last.next = temp;
-                     temp.prev = last;
-                     last = temp;
-                 }
-                 // yazdırList(temp);
-             }
+                             else
+                             {
+                                 last.next = temp;
+                                 temp.prev = last;
+                                 last = temp;
+                             }
+                             // yazdırList(temp);
+                         }
             */
 
             #endregion
@@ -1272,12 +1534,11 @@ namespace VeriYapıları2022
 
             #region Çiftli Linked List En Sondan Eleman Sİlme
             /*
-            //Tekli Linked List İle Aynı
 
             Block t = head;
             while (t != null) //Veya burası t.next!=null yapılabilir
             {
-                Console.WriteLine(t.data);
+                Console.WriteLine(t.data); // 1 --> 2
                 if (t.next.next==null)
                 {
                     t = last;
@@ -1294,7 +1555,7 @@ namespace VeriYapıları2022
 
             Block t = head;
 
-            while (t != null)
+            while (t != null) // 1 --> 2 -> 3 -> 4 -> 5 -> 6
             {
                 Console.WriteLine(t.data);
 
@@ -1465,7 +1726,7 @@ namespace VeriYapıları2022
             while (t != null) // 1 --> 2 --> 3 --> 4 --> 555 --> 5 --> 6
             {
                 if (t.data == 5 && t.prev.data ==4) // 4 ü kontrol etmemin sebebi ekleme işlemini yapınca t=555 oluyor t.next =5 oluyor bu yüzden sonsuz döngüye giriyor
-                {                                   // ne yaptıüım anlaşılmadıysa  && t.prev.data ==4 kısmın silip tekrar çalıştırsın
+                {                                   // ne yaptığımı anlamayan  && t.prev.data ==4 kısmın silip çalıştırsın
                     ekle.prev = t.prev;
                     t.prev.next = ekle;
 
@@ -1555,41 +1816,41 @@ namespace VeriYapıları2022
 
             #region Çiftli Linked List Bir Dizi İçerisindeki Sıralı Olmayan Elemanları Sıralı Bir Şeklide Kopyalama
             /*
-            int[] dizi = { 3, 6, 2, 1, 8, 9, 4 };
+           int[] dizi = { 3, 6, 2, 1, 8, 9, 4 };
 
-            for (int i = 0; i < 7; i++)
-            {
-                int enK = 0;
-                Block sirali = new Block();
-                for (int j = 0; j < 7; j++)
-                {
-                    for (int k = i; k < 7; k++)
-                    {
-                        if (dizi[j]>dizi[k])
-                        {
-                            enK = dizi[k];
-                            dizi[k] = dizi[j];
-                            dizi[j] = enK;
-                        }
-                    }
-                }
+           for (int i = 0; i < 7; i++)
+           {
+               int enK = 0;
+               Block sirali = new Block();
+               for (int j = 0; j < 7; j++)
+               {
+                   for (int k = i; k < 7; k++)
+                   {
+                       if (dizi[j] > dizi[k])
+                       {
+                           enK = dizi[k];
+                           dizi[k] = dizi[j];
+                           dizi[j] = enK;
+                       }
+                   }
+               }
 
-                sirali.data = enK;
+               sirali.data = enK;
 
-                if (head==null)
-                {
-                    head = sirali;
-                    last = sirali;
-                }
-                else
-                {
-                    last.next = sirali;
-                    sirali.prev = last;
-                    last = sirali;
-                }
-                Console.WriteLine(sirali.data);
-            }
-            */
+               if (head == null)
+               {
+                   head = sirali;
+                   last = sirali;
+               }
+               else
+               {
+                   last.next = sirali;
+                   sirali.prev = last;
+                   last = sirali;
+               }
+               Console.WriteLine(sirali.data);
+           }*/
+
             #endregion
 
             #region Çiftli Linked List Başka Bir Çifli Linked Liste Kopyalama 
@@ -1604,7 +1865,8 @@ namespace VeriYapıları2022
                 Block copy = new Block();
                 copy.data = t.data;
                 copy.next = null;
-                copy.prev = last;
+                copy.prev = null;
+
                 if (head == null)
                 {
                     head = copy;
@@ -1613,15 +1875,15 @@ namespace VeriYapıları2022
                 else
                 {
                     last.next = copy;
-                    
+                    copy.prev = last;                    
                 }
                 Console.WriteLine(copy.data);
 
                 t = t.next;
 
-            }
+            }*/
 
-            */
+
 
             #endregion
 
@@ -1697,12 +1959,11 @@ namespace VeriYapıları2022
 
             #endregion
 
-
             #region STACK 
+
             //FİLO--> First in Last out --> İlk giren Son çıkar
             //LİFO--> Last in First out --> Son giren İlk çıkar
             //işletim sistemleri, oyun yazılımları, bazı yazılımlarda, compiler, infix ve postfix yapılarında, metot çağırmalarında stack kullanır
-
 
             #region Push Pop
             /*
@@ -1807,7 +2068,198 @@ namespace VeriYapıları2022
             }*/
             #endregion
 
+            #region Infix to Postfix
+
+            //string infix = "a+b*c-d";
+            //string postfix = "";
+            //string op = "$(+-*/";
+
+            /*string oncelik = "0011220";
+            push((byte)'$');
+
+            for (int i = 0; i < infix.Length; i++)
+            {
+                if (op.IndexOf(infix[i])==-1)
+                {
+                    postfix = postfix + infix[i];
+                    continue;
+                }
+                if (infix[i]=='(')
+                {
+                    push((byte)'(');
+                    continue;
+                }
+                if (infix[i] == ')')
+                {
+                    while (peek()!='(')
+                    {
+                        postfix += (char)pop();
+                    }
+                  pop();
+                    continue;
+                }
+
+                int a = (byte)peek();
+                a = op.IndexOf((char)a);
+
+                if (oncelik[a]>oncelik[op.IndexOf(infix[i])])
+                {
+                    postfix += (char)pop();
+                    push(infix[i]);
+                }
+                else
+                {
+                    push(infix[i]);
+                }
+               
+            }
+            while (peek() != '$')
+            {
+                postfix += (char)pop();
+            }
+
+            Console.WriteLine(postfix);
+
+            */
             #endregion
+
+            #region Postfix to Infix
+            
+            string postfix = "ab*c+d-"; //--> a*b+c-d
+            string op = "+-*/";
+            /* string operand = "abcd";
+             int[] deger = { 1,2,3,3 }; //a=1 b=2 c=3 d=2
+
+             Stack<int> st = new Stack<int>();
+
+             for (int i = 0; i < postfix.Length; i++)
+             {
+                 if (operand.IndexOf(postfix[i])!=-1)
+                 {
+                     int indis = operand.IndexOf(postfix[i]);
+                     st.Push(deger[indis]);
+                     continue;
+                 }
+
+                 int karakter2 = st.Pop();
+                 int karakter1 = st.Pop();
+                 int sonuc = 0;
+
+                 if (postfix[i] == '*') sonuc = bolme(karakter1, karakter2);
+                 if (postfix[i] == '/') sonuc = carp(karakter2, karakter1);
+                 if (postfix[i] == '+') sonuc = topla(karakter2, karakter1);
+                 if (postfix[i] == '-') sonuc = fark(karakter2, karakter1);
+                 st.Push(sonuc);
+             }
+
+
+             Console.WriteLine(st.Pop());*/
+            #endregion
+
+            #endregion
+
+            #region QUEUE
+            /*
+            Queue<string> q = new Queue<string>();
+            q.Enqueue(@"c:\spark");
+            while (q.Count > 0)
+            {
+
+                string st = q.Dequeue();
+                Console.WriteLine(st);
+                DirectoryInfo di = new DirectoryInfo(st);
+                DirectoryInfo[] dirs = di.GetDirectories();
+                foreach (DirectoryInfo item in dirs)
+                {
+                    q.Enqueue(item.FullName);
+                }
+            }*/
+
+            #endregion
+
+            #region TREE
+
+            int[] btree = new int[15];
+            btree[0] = 50;
+
+            btree[1] = 17;
+            btree[2] = 72;
+            btree[3] = 12;
+            btree[4] = 23;
+            btree[5] = 54;
+            btree[6] = 76;
+
+            btree[7] = 9;
+            btree[8] = 14;
+            btree[9] = 19;
+            btree[10] = -1;
+            btree[11] = -1;
+            btree[12] = 67;
+            btree[13] = -1;
+            btree[14] = -1;
+
+            #region Recursive çözüm
+
+            //yazRecursiveBtree(btree,0);
+            #endregion
+
+            #region Recursive Olmayan Çözüm
+            /* Stack<int> stack = new Stack<int>();
+             stack.Push(0);
+             while (stack.Count > 0)
+             {
+                 int indis = stack.Pop();
+                 Console.WriteLine(btree[indis]);
+                 indis = indis * 2 + 1;
+                 if (indis <= 14)
+                 {
+                     stack.Push(indis);
+                 }
+                 indis++;
+                 if (indis <= 14)
+                 {
+                     stack.Push(indis);
+                 }
+             }*/
+            #endregion
+
+
+            /*  btree root = new btree(0);
+              root.left = new btree(1);
+              root.left.left = new btree(3);
+              root.left.left.left = new btree(7);
+              root.left.right = new btree(4);
+              root.left.right.left = new btree(8);
+              root.left.right.right = new btree(9);
+              root.right = new btree(2);
+              root.right.left = new btree(5);
+              root.right.right = new btree(6);*/
+
+            for (int i = 0; i < 100; i++)
+            {
+                Btree[i] = i + 1;
+            }
+
+            int a = treeSearch(9, 0);
+
+            Console.WriteLine(a);
+
+            #endregion
+
+            #region Veri Yapıları 2022 Ödev
+            //Birbirleri ile bağlantılı en çok 1'i bul
+
+            /* int[,] dizi = { {1, 1, 1,  },
+                             {1, 0, 0, },
+                             {1, 0, 1  },};
+
+
+             Console.WriteLine(enBuyukBolge(dizi));*/
+
+
+            #endregion
+
+
 
             Console.ReadLine();
 
