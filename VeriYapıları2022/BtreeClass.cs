@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace VeriYapıları2022
 {
-    class Btree
+    class BtreeClass
     {
 
         #region BTREE METOTLARI
+
+        class Block
+        {
+            public int data;
+            public Block next;
+            public Block prev;
+        }
+
 
         static Block frontTree = null;
         static Block rearTree = null;

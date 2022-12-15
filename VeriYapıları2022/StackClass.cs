@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VeriYapıları2022
 {
-    public class Stack
+    public class StackClass
     {
 
         #region STACK METOTLARI

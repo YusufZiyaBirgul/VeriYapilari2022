@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VeriYapıları2022
 {
-    class Queue
+    class QueueClass
     {
         #region QUEUEU METOTLARI
 
