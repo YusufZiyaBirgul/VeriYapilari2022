@@ -61,7 +61,6 @@ namespace VeriYapıları2022
 
         static int[] stack = new int[100];
         static int sp = -1; //STACK POİNT herzaman -1 den başlar
-
         static void push(int data) // STACK'a eleman ekle
         {
             sp++;
@@ -76,11 +75,35 @@ namespace VeriYapıları2022
             return data;
         }
 
-        static int peek()
+         static int peek() // Stacktaki o anki bulunan elemana bakar
+         {
+             return spLinked.data;
+         }
+
+        static Block spLinked = null;
+        static void linkedPush(int data)
         {
-            return stack[sp];
+            Block bl = new Block();
+            bl.data = data;
+            bl.next = null;
+            bl.prev = null;
+            if (spLinked == null)
+            {
+                spLinked = bl;
+                return;
+            }
+            bl.next = spLinked;
+            spLinked.prev = bl;
+            spLinked = bl;
         }
 
+
+        static int linkedPop()
+        {
+            int data = spLinked.data;
+            spLinked = spLinked.next;
+            return data;
+        }
         static int carp(int a, int b)
         {
             return a * b;
@@ -105,28 +128,28 @@ namespace VeriYapıları2022
         static int front = 0;
         static int rear = -1;
 
-        static int count()
+        static int elemanSayisi()
         {
             return rear - front + 1;
         }
 
         static void move()
         {
-            for (int i = 0; i <= count(); i++)
+            for (int i = 0; i <= elemanSayisi(); i++)
             {
-                queue[i] = queue[front+i];
+                queue[i] = queue[front + i];
             }
-            rear = count() - 1;
+            rear = elemanSayisi() - 1;
             front = 0;
         }
 
         static void enqueue(int data) //Kuyruğa veri ekleme
         {
-            rear++; 
-            if (rear==queue.Length) 
+            if (elemanSayisi() == queue.Length)
             {
                 move();
             }
+            rear++;
             queue[rear] = data;
         }
         static int dequeue() //Kuyruktan veri çıkarma
@@ -147,7 +170,7 @@ namespace VeriYapıları2022
             bl.next = null;
             bl.prev = null;
 
-            if (rearNew==null)
+            if (rearNew == null)
             {
                 rearNew = bl;
                 frontNew = bl;
@@ -164,7 +187,7 @@ namespace VeriYapıları2022
         {
             int queData = frontNew.data;
             frontNew = frontNew.next;
-            if (frontNew==null)
+            if (frontNew == null)
             {
                 rearNew = null;
             }
@@ -174,53 +197,145 @@ namespace VeriYapıları2022
 
         #endregion
 
-        #region TREE METOTLARI
+        #region BTREE METOTLARI
 
         static Block frontTree = null;
         static Block rearTree = null;
         static int[] Btree = new int[100];
 
-        class btree
+        class blockBtree
         {
             public int data;
-            public btree left;
-            public btree right;
-            public btree(int data)
-            {
-                this.data = data;
-                left = null;
-                right = null;
-            }
+            public blockBtree left;
+            public blockBtree right;
+
         }
+
         static void btreeYaz(int parent)
         {
-            Console.WriteLine(Btree[parent*2+1]);
-            Console.WriteLine(Btree[parent*2+2]);
+            Console.WriteLine(Btree[parent * 2 + 1]);
+            Console.WriteLine(Btree[parent * 2 + 2]);
         }
 
-        static void yazRecursiveBtree(int[] btree, int parent)
+        static void btreeYazRecursive(int[] btree, int indis)
         {
-            if (parent>= 15) return;
+            if (indis >= btree.Length) return;
 
-            Console.WriteLine(btree[parent]);
-            yazRecursiveBtree(btree,2*parent+1);
-            yazRecursiveBtree(btree,2*parent+2);
-            
+            Console.WriteLine(btree[indis]);
+
+            btreeYazRecursive(btree, 2 * indis + 1); //LEFT CHİLD
+            btreeYazRecursive(btree, 2 * indis + 2); //RİGHT CHİLD
         }
 
-        static int treeSearch(int arananDeger, int root)
+
+        static bool bulundu = false;
+
+        static void findElementinBtreeVoid(int[] btree, int indis)
         {
-            if (root >= Btree.Length) return 0;
-            if (root ==Btree[root]) return 1;
+            if (indis >= btree.Length) return;
+            if (btree[indis] == 76) bulundu = true;
 
-            return treeSearch(arananDeger, root * 2 + 1) + treeSearch(arananDeger, root * 2 + 2);
+            findElementinBtreeVoid(btree, 2 * indis + 1);
+            findElementinBtreeVoid(btree, 2 * indis + 2);
+
+            //Burada O(2^n) karmaşıklığa sahip
         }
+
+        static int findElementinBtreeInt(int[] btree, int indis)
+        {
+            if (indis >= btree.Length) return 0;
+
+            if (btree[indis] == 76) return 1 + findElementinBtreeInt(btree, 2 * indis + 1) + findElementinBtreeInt(btree, 2 * indis + 2);
+
+            else return 0 + findElementinBtreeInt(btree, 2 * indis + 1) + findElementinBtreeInt(btree, 2 * indis + 2);
+            //Burada O(ln(n)) karmaşıklığa sahip
+        }
+
+        static int sayac = 0;
+        static void findElementinBtree(blockBtree bt)
+        {
+            if (bt == null) return;
+            if (bt.data == 76) sayac++;
+
+            findElementinBtree(bt.left);
+            findElementinBtree(bt.right);
+        }
+
+        static void btreeElemanEkle(blockBtree btree, int eklenecekVeri)
+        {
+            // Ağaca veri ekleme sadece yapraklarda olur. Araya eleman ekleme yapılamaz
+
+            if (btree == null)
+            {
+                return;
+            }
+
+            if (btree.data < eklenecekVeri)
+            {
+                if (btree.right != null)
+                {
+                    btreeElemanEkle(btree.right, eklenecekVeri);
+                }
+
+                else
+                {
+                    blockBtree bt = new blockBtree();
+                    bt.data = eklenecekVeri;
+                    bt.left = null;
+                    bt.right = null;
+                    btree.right = bt;
+                }
+            }
+            else
+            {
+                if (btree.left != null)
+                {
+                    btreeElemanEkle(btree.left, eklenecekVeri);
+                }
+
+                else
+                {
+                    blockBtree bt = new blockBtree();
+                    bt.data = eklenecekVeri;
+                    bt.left = null;
+                    bt.right = null;
+                    btree.left = bt;
+                }
+            }
+        }
+
+        static int btreeSearch(blockBtree btree, int arananDeger)
+        {
+            if (btree == null) return 0;
+            if (btree.data == arananDeger) return 1;
+
+            if (btree.data < arananDeger) 
+            { 
+                return btreeSearch(btree.right, arananDeger); 
+            }
+
+            else 
+            { 
+                return btreeSearch(btree.left, arananDeger);
+            }
+        }
+
+        static blockBtree btreeLinkedListOlustur(int[] btree, int indis) // Btree yi Linked List ile oluşturma
+        {
+            if (indis >= btree.Length) return null;
+            blockBtree bt = new blockBtree();
+            bt.data = btree[indis];
+            bt.left = btreeLinkedListOlustur(btree, indis * 2 + 1);
+            bt.right = btreeLinkedListOlustur(btree, indis * 2 + 2);
+            return bt;
+        }
+
 
         #endregion
 
-        #region ÖDEV METOTLARI
+        #region EN BÜYÜK ALANI BULMA ÖDEV METODU
         static int odevMetot(int[,] dizi, int row, int column)
-        {
+        {//ÇALIŞMIYOR, ÇÖZEMEDİM SORUNU
 
             if (row < 0 || column < 0 || row >= 9 || column >= 3) return 0;
 
@@ -254,12 +369,8 @@ namespace VeriYapıları2022
         }
         #endregion
 
-
-
-
-
-
-
+        static int[] btree = { 50, 17, 72, 12, 23, 54, 76, 9, 14, 19, 0, 0, 67 };
+      
         static void Main(string[] args)
         {
             //Dizilerde adres bulma
@@ -1976,6 +2087,14 @@ namespace VeriYapıları2022
          Console.WriteLine(pop());
          Console.WriteLine(pop());
 
+
+            linkedPush(10);
+            linkedPush(20);
+            linkedPush(30);
+            Console.WriteLine(linkedPop());
+            Console.WriteLine(linkedPop());
+            Console.WriteLine(linkedPop());
+
             for (int i = 0; i < 100; i++)
             {
                 push(i);
@@ -2124,9 +2243,9 @@ namespace VeriYapıları2022
             #endregion
 
             #region Postfix to Infix
-            
-            string postfix = "ab*c+d-"; //--> a*b+c-d
-            string op = "+-*/";
+
+            // string postfix = "ab*c+d-"; //--> a*b+c-d
+            //string op = "+-*/";
             /* string operand = "abcd";
              int[] deger = { 1,2,3,3 }; //a=1 b=2 c=3 d=2
 
@@ -2177,9 +2296,9 @@ namespace VeriYapıları2022
 
             #endregion
 
-            #region TREE
+            #region BTREE
 
-            int[] btree = new int[15];
+           /* int[] btree = new int[15];
             btree[0] = 50;
 
             btree[1] = 17;
@@ -2192,20 +2311,20 @@ namespace VeriYapıları2022
             btree[7] = 9;
             btree[8] = 14;
             btree[9] = 19;
-            btree[10] = -1;
-            btree[11] = -1;
+            btree[10] = -1; // Null demektense -1 değerini verdik
+            btree[11] = -1; // -1 parent'ın child'ı yok demek
             btree[12] = 67;
             btree[13] = -1;
-            btree[14] = -1;
+            btree[14] = -1;*/
 
-            #region Recursive çözüm
+            #region Recursive Btree Yazdırma 
 
             //yazRecursiveBtree(btree,0);
             #endregion
 
-            #region Recursive Olmayan Çözüm
+            #region Recursive Olmayan Btree Yazdırma 
             /* Stack<int> stack = new Stack<int>();
-             stack.Push(0);
+             stack.Push(0); //Kök(Root) Eleman
              while (stack.Count > 0)
              {
                  int indis = stack.Pop();
@@ -2223,30 +2342,38 @@ namespace VeriYapıları2022
              }*/
             #endregion
 
-
-            /*  btree root = new btree(0);
-              root.left = new btree(1);
-              root.left.left = new btree(3);
-              root.left.left.left = new btree(7);
-              root.left.right = new btree(4);
-              root.left.right.left = new btree(8);
-              root.left.right.right = new btree(9);
-              root.right = new btree(2);
-              root.right.left = new btree(5);
-              root.right.right = new btree(6);*/
-
-            for (int i = 0; i < 100; i++)
+            #region BTREE İçerisinde Eleman Bulma //ANLAMADIĞIM BİR SEBEPTEN DOLAYI SONUCU GÖSTERMEDEN UYGULAMA KAPANIYOR
+            /*
+            Stack<int> st = new Stack<int>();
+            st.Push(0); // Root eleman
+            bool bulundu = false;
+            while (st.Count>0)
             {
-                Btree[i] = i + 1;
+                int indis = st.Pop();
+                Console.WriteLine(btree[indis]);
+                
+                if (btree[indis] == 76) { bulundu = true; return; }
+                
+                indis = indis * 2 + 1;
+
+                if (indis < btree.Length) st.Push(indis);
+
+                indis++;
+
+                if (indis < btree.Length) st.Push(indis);
             }
+            if (bulundu) Console.WriteLine("Bulundu");
 
-            int a = treeSearch(9, 0);
-
-            Console.WriteLine(a);
+            else Console.WriteLine("Bulunamadı");
+            */
 
             #endregion
 
-            #region Veri Yapıları 2022 Ödev
+        
+
+            #endregion
+
+            #region Veri Yapıları 2022 Ödev //ÇALIŞTIRAMADIM
             //Birbirleri ile bağlantılı en çok 1'i bul
 
             /* int[,] dizi = { {1, 1, 1,  },
@@ -2260,10 +2387,7 @@ namespace VeriYapıları2022
             #endregion
 
 
-
             Console.ReadLine();
-
-
         }
     }
 }

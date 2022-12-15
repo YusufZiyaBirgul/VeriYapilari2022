@@ -43,9 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LinkedList.cs" />
+    <Compile Include="Stack.cs" />
+    <Compile Include="TekYönlüLinkedList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ÇiftYönlüLinkedList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
