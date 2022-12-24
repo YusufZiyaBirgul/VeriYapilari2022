@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Stack.cs" />
+    <Compile Include="BtreeClass.cs" />
+    <Compile Include="DizilerClass.cs" />
+    <Compile Include="QueueClass.cs" />
+    <Compile Include="StackClass.cs" />
     <Compile Include="TekYönlüLinkedList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
