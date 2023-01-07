@@ -6,7 +6,81 @@ using System.Threading.Tasks;
 
 namespace VeriYapıları2022
 {
+    #region Diziler ve Bağlı Listeler Arasnındaki Temel Farklılıklar
 
+    /*
+     1)Bir dizi, benzer tipte veri elemanlarıın bir koleksiyonunu içeren veri yapısıdır,
+     buna karşılık baĞLI LİSTELER DÜĞÜMLER OLARAK BİLİNEN SIRALI OLMAYAN BAĞLANTILI ELEMANLARIN BİR koleksiyonu.
+
+     2)Dizinin elemanlarına ulaşmak için dizinin adı ve ulaşılmak istenilen dizi elemanının sırasını kullanmak yeterli.
+     Buna karşılık,bağlantılı bir lsitede ,bir düğümdeki veri üzerinden işlem yapabilmek için her zaman baştaki düğümden
+     okumaya başlayıp okunması gereken verinin düğümüne kadar ilerlemek gerekir.
+
+     !!! 3)Bir dizideki elemana erişim hızlıdır, Bağlantılı listede bir düğüme ulaşmak doğrusal zaman alır,
+     bu yüzden bağlı liste biraz daha yavaştır !!!
+
+     4)Dizilerde ekleme ve silme gibi işlemler zaman alır. Öte yandan bağlı listelerde bu işlemlerin performansı daha hızlıdır.
+
+     5)Dizler sabit boyutludur. Bağlı listelerin boyutu ise çalışma sırasında değiştirilebilir.
+
+     6)Bir dizi için bellek tahsis derleme sırasında yapılırken, bağlı listeler için bellek tahsisi yürütme 
+    veya çalıştırma sırasında yapılır.
+
+     7)Dizilerde öğeler ardışık olarak saklanırken, bağlı listelerde öğeler rastgele saklanır.
+
+     8)Diziler bellekte ardışık adresleri kullandığı için dizi üzerinde işaretçi bilgisine ihtiyaç duyulmaz,
+    buna karşılık, bağl listelerde, her düğümde verinin yanında bir sonraki düğüme işaret edecek işaretçi için yer ayrılması gerekir.
+
+
+     BAĞLI LİSTELERİN AVANTAJLARI
+
+     1)Bağlı listelerin boyutları dizilerin aksine dinamiktir. Yani öğe sayısı derleme zamanından sonra istenildiği gibi
+    arttırılıp azaltlabilinir.Bu sayede gereksiz bellek kullanımın önüne geçilir.
+
+     2)Bağlı listelere, öğe ekleme,silme vb işlemler dizilere göre daha hızlı daha kolay ve daha az maaliyeli yapabilmesi.
+
+     BAĞLI LİSTELERİN DEZAVANTAJI
+
+     1)Bağlı listelerde düğüme ulaşmak için rastgele erişim sağlanamaz, düğüme ulaşmak için her zaman listenin ilk düğümünden 
+    okunacak verrinin bulunduğu düğüme kadar okuma işleminin sürdürülmesi gerekli.
+
+     2)Her düğümde işaretçi için fazladan bellek alanının kullanılması zorunludur.
+
+
+     TEK YÖNLÜ BAĞLI LİSTELERİN AVANTAJLARI
+
+     1)Uygulaması en kolay veri yapısıdır. 
+     2)Eleman ekleme silme kolaylıkla yapılabilir.
+     3)Düğümmlerin eklenmesi ve silinmesi sırasında tüm düğümlerin hareket etmesi gerekmez.
+     4)İki yönlü bağlı listelere veya dairesel bağlı listelere kıyasla daha az bellek gerektirir.
+     5)Yürütülmesi sırasında gerektiğinde ihtiyaç duyulan bellek kolayca tahsis edilir veya serbest bırakılabilir.
+     6)Bir yönde hareket etmek gerektiği durumlarda uygulanacak en verimli veri yapısıdır.
+
+
+    TEK YÖNLÜ BAĞLI LİSTELERİN DEZAVANTAJLARI
+
+     1)Bir diziye göre daha fazla bellek kullanır.
+     2)Düğümler sıralı olarak depolamadığından, listenin her öğesine erişmek için daha fazla zaman gerekir.
+     3)Tek yönlü bağlı listelerde tek yönde hareket edilebilir, ters yönde haraket etmek mümkün değildir.
+
+
+
+    ÇİFT YÖNLÜ BAĞLI LİSTELERİN AVANTAJLARI
+
+     1)Liste üzerinde çifti yönlü hareket edebilirler.
+     2)Ekleme, silme gibi bazı işlemler daha kolaydır.
+     3)Tekli linked liste göre daha verimli ve sağlamdır.
+
+    ÇİFT YÖNLÜ BAĞLI LİSTELERİN DEZAVANTAJLARI
+
+     1)Önceki işaretçi için bellekte fazladan yer kaplar.
+     2)Her düğümün önceki(prev) ve sonraki(next) adında iki işaretçisi olduğu için liste işlemler daha yavaştır.
+     3)Hata yapılma ihtimali yüksektir. Örneğin listeye eleman ekleme sırasında, önceki işaretçileri
+     sonraki işaretçileri ile birlikte değiştirmemiz gerekir. Herhangi bir işlemin atlanması hataya neden olabilir.
+
+     */
+
+    #endregion
 
     class TekYönlüLinkedList
     {

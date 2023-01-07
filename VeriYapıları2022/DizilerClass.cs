@@ -8,6 +8,34 @@ namespace VeriYapıları2022
 {
     class DizilerClass
     {
+        #region BAĞLI LİSTELER VS DİZİLER
+
+        /* 1) Bağlı listler her bir elemanın işaretçiler kullanılarak bir sonrakine bağlandığı aynı türdeki öğelerin sıralı bir koleksiyonudur*/
+        /* 1) Diziler, aynı tipteki veri türü elemaanlarının bir koleksiyonudur */
+
+        /* 2) Bağlı listelerin elemanlarına sıralı olarak erişebilir*/
+        /* 2) Dizilerin elemanların rastgele erişilebilir*/
+
+        /* 3) Bağlı liste elemanları bellekte rastgele saklanır*/
+        /* 3) Dizilerin elemanları bellekte rastgele saklanır*/
+
+        /* 4) Bağlı listelerde elemanların silinmesi ve eklenmesi hızlı ve kolaydır*/
+        /* 4) Dizilerin elemanlarının silinmesi ve eklenmesi maaliyetlidir*/
+
+        /* 5) Bağlı liste elemanları için bellek çalışma zamanı sırasında atanır (DİNAMİK BELLEK AYIRMA) */
+        /* 5) Dizi elemanları için bellek derleme esnasında atanır (STATİK BELLEK AYIRMA)*/
+
+        /* 6) Bağlı listelerin boyutu yeni elemanlar eklendiğinde/silindiğinde büyür küçülür*/
+        /* 6) Dizilerin boyutu yeni elemanlar eklendiğinde/silindiğinde büyümez küçülmez*/
+
+        /* 7) Bağlı listelerde doğrusal arama yapılabilir O(n)*/
+        /* 7) Dizilerde doğrusal ve ikili arama saypılabilir O(1)*/
+ 
+        /* 8) Bağlı listeler daha fazla bellek kullanır*/
+        /* 8) Diziler daha az bellek kullanır*/
+
+        #endregion
+
         #region ÇOK BOYUTLU DİZİ METOTLARI
         static int toplaRec(int[,] dizi, int x, int n1, int y, int n2) //n1 satır n2 sütun 
         {   //2 boyutlu dizinin recursive toplamı

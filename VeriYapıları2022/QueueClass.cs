@@ -8,6 +8,19 @@ namespace VeriYapıları2022
 {
     class QueueClass
     {
+        #region KUYRUK VERİ YAPISI
+
+        /* FİFO  -> First in First out / İlk giren İlk çıkar */
+        /* rear  -> Kuyruğun sonun ifade eder ve eleman ekleme işlemi buradan başlar*/
+        /* front -> Kuyruğun başını temsil eder ve eleman çıkarma işlemi buradan başlar*/
+        /* Enqueue -> Kuyruğa eleman eklenmesi / kuyruğun arkasından başlanır */
+        /* Dequeue -> Kuyruktan eleman çıkarılması / kuyruğun önünden başlanır */
+        /* Kuyruk doluyken eleman eklenmesi OVERFLOW hatası döndürür */
+        /* Kuyruk boşken eleman silinmesi UNDERFLOW hatası döndürür*/
+        
+        
+        #endregion
+
         #region QUEUEU METOTLARI
 
         class Block
@@ -18,8 +31,8 @@ namespace VeriYapıları2022
         }
 
         static int[] queue = new int[100];
-        static int front = 0;
-        static int rear = -1;
+        static int front = 0; // Kuyruğun Başı
+        static int rear = -1; // Kuyruğun Sonu
 
         static int elemanSayisi()
         {
@@ -53,7 +66,7 @@ namespace VeriYapıları2022
             return data;
         }
 
-        static Block rearNew = null;
+        static Block rearNew = null; //Linked List ile veri ekleme ve çıkarma için
         static Block frontNew = null;
 
         static void enqueueLinked(int queData)

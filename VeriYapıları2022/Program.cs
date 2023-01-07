@@ -49,8 +49,6 @@ namespace VeriYapıları2022
                 Console.WriteLine(temp.data);
                 temp = temp.next;
             }
-
-
         }
 
         #endregion
@@ -75,10 +73,10 @@ namespace VeriYapıları2022
             return data;
         }
 
-         static int peek() // Stacktaki o anki bulunan elemana bakar
-         {
-             return spLinked.data;
-         }
+        static int peek() // Stacktaki o anki bulunan elemana bakar
+        {
+            return spLinked.data;
+        }
 
         static Block spLinked = null;
         static void linkedPush(int data)
@@ -127,6 +125,27 @@ namespace VeriYapıları2022
         static int[] queue = new int[100];
         static int front = 0;
         static int rear = -1;
+
+        class QueNode
+        {
+            public int data;
+            public QueNode next;
+        }
+
+        static Stack<int> s1 = new Stack<int>();
+
+        static void enQueueWithStack(int data)
+        {
+
+            s1.Push(data);
+        }
+
+        static int deQueueWithStack()
+        {
+            int data = s1.Peek();
+            s1.Pop();
+            return data;
+        }
 
         static int elemanSayisi()
         {
@@ -194,7 +213,36 @@ namespace VeriYapıları2022
             return queData;
         }
 
+        static QueNode rQueNode = null;
+        static QueNode fQueNode = null;
 
+        static void qNodeEnqueue(int queData)
+        {
+            QueNode bl = new QueNode();
+            bl.data = queData;
+            bl.next = null;
+
+            if (rQueNode == null)
+            {
+                rQueNode = bl;
+                fQueNode = bl;
+            }
+            else
+            {
+                rQueNode.next = bl;
+                rQueNode = bl;
+            }
+        }
+        static int qNodeDequeue()
+        {
+            int queData = fQueNode.data;
+            fQueNode = fQueNode.next;
+            if (fQueNode == null)
+            {
+                rQueNode = null;
+            }
+            return queData;
+        }
         #endregion
 
         #region BTREE METOTLARI
@@ -309,28 +357,51 @@ namespace VeriYapıları2022
             if (btree == null) return 0;
             if (btree.data == arananDeger) return 1;
 
-            if (btree.data < arananDeger) 
-            { 
-                return btreeSearch(btree.right, arananDeger); 
+            if (btree.data < arananDeger)
+            {
+                return btreeSearch(btree.right, arananDeger);
             }
 
-            else 
-            { 
+            else
+            {
                 return btreeSearch(btree.left, arananDeger);
             }
         }
+        static int counter = 0;
 
-        static blockBtree btreeLinkedListOlustur(int[] btree, int indis) // Btree yi Linked List ile oluşturma
+        static Block root = null;
+
+        static blockBtree btreeLinkedWithblockBtreeOlustur(int[] btree, int indis) // Btree yi blockBtree ile oluşturma
         {
             if (indis >= btree.Length) return null;
             blockBtree bt = new blockBtree();
             bt.data = btree[indis];
-            bt.left = btreeLinkedListOlustur(btree, indis * 2 + 1);
-            bt.right = btreeLinkedListOlustur(btree, indis * 2 + 2);
+            Console.WriteLine(bt.data);
+
+            bt.left = btreeLinkedWithblockBtreeOlustur(btree, indis * 2 + 1);
+            bt.right = btreeLinkedWithblockBtreeOlustur(btree, indis * 2 + 2);
+
+            if (bt.right == null && bt.left == null) counter++; // Eğer bt.right ve bt.left null ise çocuğu yoktur yani leaf(yaprak) düğümdür.
+
             return bt;
         }
 
+       /* static Block btreeLinkedWithBlockOlustur(int[] btree, int indis) // Btree yi Block ile oluşturma
+        {
+            if (indis >= btree.Length) return null;
 
+            root = new Block();
+            root.data = btree[indis];
+            Console.WriteLine(root.data);
+
+            root.next = btreeLinkedWithBlockOlustur(btree, indis * 2 + 1);
+            root.prev = btreeLinkedWithBlockOlustur(btree, indis * 2 + 2);
+
+            if (root.next == null && root.prev == null) counter++; // Eğer bt.next ve bt.prev null ise çocuğu yoktur yani leaf(yaprak) düğümdür.
+
+            return root;
+        }
+       */
         #endregion
 
         #region HASHING METOTLARI
@@ -375,14 +446,14 @@ namespace VeriYapıları2022
             else
             {
                 //Normal Çözüm
-              /*  for (int i = 0; i < hash.Length; i++)
-                {
-                    if(hash[i]==0)
-                    {
-                        hash[i] = data;
-                        break;
-                    }
-                }*/
+                /*  for (int i = 0; i < hash.Length; i++)
+                  {
+                      if(hash[i]==0)
+                      {
+                          hash[i] = data;
+                          break;
+                      }
+                  }*/
 
                 //Linked List Çözümü
                 Block bl = new Block();
@@ -417,7 +488,7 @@ namespace VeriYapıları2022
                 //Linked List Çözümü
                 Block temp = coll[indis];
 
-                while (temp!=null)
+                while (temp != null)
                 {
                     if (temp.data == data)
                     {
@@ -447,7 +518,7 @@ namespace VeriYapıları2022
                 {
                     hash[indis] = 0;
                 }
-            
+
             }
 
 
@@ -493,15 +564,11 @@ namespace VeriYapıları2022
         }
         #endregion
 
-        static int[] btree = { 50, 17, 72, 12, 23, 54, 76, 9, 14, 19, 0, 0, 67 };
-      
+        static int[] btree = { 1, 2, 3, 4, 5 };
+        //41, 20, 65, 99, 91, 72, 50, 32, 29, 11
+        //50, 17, 72, 12, 23, 54, 76, 9, 14, 19, 0, 0, 67
         static void Main(string[] args)
         {
-            //Dizilerde adres bulma
-            //int[b1,b2,b3,b4,b5,b6]
-            //int[i1,i2,i3,i4,i5,i6]
-
-            //i1*b2*b3*b4*b5*b6*4 + i2*b3*b4*b5*b6*4 + i3*b4*b5*b6*4 + i4*b5*b6*4 + i5*b6*4 + i6*4
 
 
             #region ÇOK BOYUTLU DİZİLER 
@@ -1608,30 +1675,30 @@ namespace VeriYapıları2022
 
             #region Çiftli Linked List Elemanları Oluşturma
             /*
-                        Block head = null; //baş
-                         Block last = null; //son
+            Block head = null; //baş
+            Block last = null; //son
 
-                         for (int i = 0; i < 10; i++) //Linked List Oluşturma
-                         {
-                             Block temp = new Block();
-                             temp.data = i;
-                             temp.next = null;
+            for (int i = 0; i < 10; i++) //Linked List Oluşturma
+            {
+                Block temp = new Block();
+                temp.data = i;
+                temp.next = null;
 
 
-                             if (head == null)
-                             {
-                                 head = temp;
-                                 last = temp;
-                             }
+                if (head == null)
+                {
+                    head = temp;
+                    last = temp;
+                }
 
-                             else
-                             {
-                                 last.next = temp;
-                                 temp.prev = last;
-                                 last = temp;
-                             }
-                             // yazdırList(temp);
-                         }
+                else
+                {
+                    last.next = temp;
+                    temp.prev = last;
+                    last = temp;
+                }
+                // yazdırList(temp);
+            }
             */
 
             #endregion
@@ -2191,7 +2258,6 @@ namespace VeriYapıları2022
             */
             #endregion
 
-
             #endregion
 
             #region STACK 
@@ -2313,57 +2379,57 @@ namespace VeriYapıları2022
 
             #region Infix to Postfix
 
-            //string infix = "a+b*c-d";
+            //string infix = "a+b*((c/d^5)-26+a)/b";
             //string postfix = "";
             //string op = "$(+-*/";
+            /*
+                        string oncelik = "0011220";
+                        push((byte)'$');
 
-            /*string oncelik = "0011220";
-            push((byte)'$');
+                        for (int i = 0; i < infix.Length; i++)
+                        {
+                            if (op.IndexOf(infix[i])==-1)
+                            {
+                                postfix = postfix + infix[i];
+                                continue;
+                            }
+                            if (infix[i]=='(')
+                            {
+                                push((byte)'(');
+                                continue;
+                            }
+                            if (infix[i] == ')')
+                            {
+                                while (peek()!='(')
+                                {
+                                    postfix += (char)pop();
+                                }
+                              pop();
+                                continue;
+                            }
 
-            for (int i = 0; i < infix.Length; i++)
-            {
-                if (op.IndexOf(infix[i])==-1)
-                {
-                    postfix = postfix + infix[i];
-                    continue;
-                }
-                if (infix[i]=='(')
-                {
-                    push((byte)'(');
-                    continue;
-                }
-                if (infix[i] == ')')
-                {
-                    while (peek()!='(')
-                    {
-                        postfix += (char)pop();
-                    }
-                  pop();
-                    continue;
-                }
+                            int a = (byte)peek();
+                            a = op.IndexOf((char)a);
 
-                int a = (byte)peek();
-                a = op.IndexOf((char)a);
+                           if (oncelik[a]>oncelik[op.IndexOf(infix[i])])
+                            {
+                                postfix += (char)pop();
+                                push(infix[i]);
+                            }
+                            else
+                            {
+                                push(infix[i]);
+                            }
 
-                if (oncelik[a]>oncelik[op.IndexOf(infix[i])])
-                {
-                    postfix += (char)pop();
-                    push(infix[i]);
-                }
-                else
-                {
-                    push(infix[i]);
-                }
-               
-            }
-            while (peek() != '$')
-            {
-                postfix += (char)pop();
-            }
+                        }
+                        while (peek() != '$')
+                        {
+                            postfix += (char)pop();
+                        }
 
-            Console.WriteLine(postfix);
+                        Console.WriteLine(postfix);
+                        */
 
-            */
             #endregion
 
             #region Postfix to Infix
@@ -2466,29 +2532,30 @@ namespace VeriYapıları2022
              }*/
             #endregion
 
-            #region BTREE İçerisinde Eleman Bulma //ANLAMADIĞIM BİR SEBEPTEN DOLAYI SONUCU GÖSTERMEDEN UYGULAMA KAPANIYOR
-            /*
-            Stack<int> st = new Stack<int>();
-            st.Push(0); // Root eleman
-            bool bulundu = false;
-            while (st.Count>0)
-            {
-                int indis = st.Pop();
-                Console.WriteLine(btree[indis]);
-                
-                if (btree[indis] == 76) { bulundu = true; return; }
-                
-                indis = indis * 2 + 1;
+            #region BTREE İçerisinde Eleman Bulma 
 
-                if (indis < btree.Length) st.Push(indis);
+            /* Stack<int> st = new Stack<int>();
+             st.Push(0); // Root eleman
+             bool bulundu = false;
+             while (st.Count>0)
+             {
+                 int indis = st.Pop();
+             Console.WriteLine(btree[indis]);
 
-                indis++;
+                 if (btree[indis] == 760) { bulundu = true; break; }
 
-                if (indis < btree.Length) st.Push(indis);
-            }
-            if (bulundu) Console.WriteLine("Bulundu");
+                 indis = indis * 2 + 1;
 
-            else Console.WriteLine("Bulunamadı");
+                 if (indis < btree.Length) st.Push(indis);
+
+                 indis++;
+
+                 if (indis < btree.Length) st.Push(indis);
+             }
+
+             if (bulundu) Console.WriteLine("Bulundu");
+
+             else Console.WriteLine("Bulunamadı");
             */
 
             #endregion
@@ -2516,7 +2583,7 @@ namespace VeriYapıları2022
 
 
 
-           
+
 
 
             #region EKLE
@@ -2529,23 +2596,23 @@ namespace VeriYapıları2022
 
             #region SEARCH
 
-            if (search(213205005) == 1)
-            {
-                Console.WriteLine("Bulundu");
-            }
-            else
-            {
-                Console.WriteLine("Bulunamadı");
-            }
-            if (search(213205205) == 1)
-            {
-                Console.WriteLine("Bulundu");
-            }
-            else
-            {
-                Console.WriteLine("Bulunamadı");
-            }
-
+            /*   if (search(213205005) == 1)
+               {
+                   Console.WriteLine("Bulundu");
+               }
+               else
+               {
+                   Console.WriteLine("Bulunamadı");
+               }
+               if (search(213205205) == 1)
+               {
+                   Console.WriteLine("Bulundu");
+               }
+               else
+               {
+                   Console.WriteLine("Bulunamadı");
+               }
+            */
             #endregion
 
             #endregion
@@ -2563,8 +2630,227 @@ namespace VeriYapıları2022
 
             #endregion
 
+            #region 2022 Mazeret Sınav Soruları
 
-            Console.ReadLine();
+            #region Çiftli Linked List Tersten Kopyalama // Sayıy ters çevirdim ve çiftli linked liste aktardım ama istenen sonucun tersinde bir çıktı aldım
+
+            /*1.Kendisine parametre olarak aldığı bir integer sayının tersini alarak, basamaklarına ayırıp bir eni çiftli linked liste ekleyen programı yazınız. 
+             * Örneğin sayı 71452 ise “25417” sayısını basamaklarına ayırıp; 2, 5, 4, 1, 7 olarak, yeni bir liste oluşturup oraya ekleme yapacak. 
+             * Not: sayıyı stringe çevirmek yasaktır! (25p)*/
+
+            /*
+            int sayı = 71452;
+            int ters = 0;
+
+            Block first = null;
+            Block last = null;
+
+            int basamakSayisi = 0;
+
+            while (sayı != 0) //İnteger bir sayıyı ters çevirme
+            {
+                ters = ters * 10;
+                ters = ters + sayı % 10;
+                sayı = sayı / 10;
+                basamakSayisi++;
+            } //ters = 25417;
+
+           
+            for (int i = 0; i < basamakSayisi; i++)
+            {
+                int basamak = ters % 10;
+                ters = ters / 10;
+
+                Block bl = new Block();
+                bl.data = basamak;
+                bl.next = null;
+                bl.prev = null;
+
+                if (first == null)
+                {
+                    first = bl;
+                    last = bl;
+                }
+                else
+                {
+                    bl.prev = last;
+                    last.next = bl;
+                }
+                yazdırList(bl);
+            }*/
+
+            #endregion
+
+
+            #region Kuyruk Sorusu A şıkkını çöz
+
+            /*2.	QueueNode adında bir sınıf yazın. Bu sınıftan türetilen nesneler data ve next özelliklerine sahip olmalı. 
+                   
+                    A.	Bu kuyruğun uzunluğunu recursive  hesaplayan programı yazın. (5 p) 
+                   
+
+
+
+
+
+
+
+                    B.	Kuyruğun tüm elemanlarını stağa aktarınız. Stak metotlarını  tanımlamanıza  gerek yoktur. 
+                        Stağa aktardığınızda pop sırası ile Dequeue sırası aynı olmalı, stacktan elemanlar kuyruktaki sıraya göre pop edilmeli (20p)
+            */
+            /*
+                        static QueNode rQueNode = null; static QueNode fQueNode = null;
+                        static void qNodeEnqueue(int queData)
+                        {
+                            QueNode bl = new QueNode();
+                            bl.data = queData;
+                            bl.next = null;
+
+                            if (rQueNode == null)
+                            {
+                                rQueNode = bl;
+                                fQueNode = bl;
+                            }
+                            else
+                            {
+                                rQueNode.next = bl;
+                                rQueNode = bl;
+                            }
+                        }
+                        static int qNodeDequeue()
+                        {
+                            int queData = fQueNode.data;
+                            fQueNode = fQueNode.next;
+                            if (fQueNode == null)
+                            {
+                                rQueNode = null;
+                            }
+                            return queData;
+                        }
+             class QueNode
+                    {
+                        public int data;
+                        public QueNode next;
+                    }
+
+                    Main()
+                    {
+                        Stack<int> st = new Stack<int>();
+
+                        for (int i = 0; i < 3; i++)
+                        {
+                            st.Push(qNodeDequeue());
+
+                            Console.WriteLine(st.Pop());
+                        }
+                    }
+            */
+
+
+            #endregion
+
+
+            #region Ağaç Sorusu
+
+            /*3.	Root çiftli linked list ile oluşturulmuş  binarytree yapısının kök bloğuna bakmaktadır. 
+                    Bu ağaç yapısının yaprak seviyesindeki elemanların sayısını bulunuz(25p)
+            */
+
+            /*yaprak seviyesindeki elemanlar = bt.left = null  and  bt.right = null*/
+
+/*      class blockBtree // class Block bunun aynısı left yerine next, right yerine prev yazılır
+        {
+            public int data;
+            public blockBtree left;
+            public blockBtree right;
+        }
+
+        static int counter = 0;
+        static Block root = null;
+
+        static blockBtree btreeLinkedWithblockBtreeOlustur(int[] btree, int indis) // Btree yi blockBtree ile oluşturma
+        {
+            if (indis >= btree.Length) return null;
+            blockBtree bt = new blockBtree();
+            bt.data = btree[indis];
+            Console.WriteLine(bt.data);
+
+            bt.left = btreeLinkedWithblockBtreeOlustur(btree, indis * 2 + 1);
+            bt.right = btreeLinkedWithblockBtreeOlustur(btree, indis * 2 + 2);
+
+            // Eğer bt.right ve bt.left null ise çocuğu yoktur yani leaf(yaprak) düğümdür.
+            if (bt.right == null && bt.left == null) counter++;
+
+            return bt;
+        }
+
+        static void Main(string[] args)
+        {
+            root = new Block();
+            btreeLinkedWithblockBtreeOlustur(btree, root.data);
+            Console.WriteLine("Sayac:" + counter);
+
+        }
+*/
+
+
+        #endregion
+
+
+            #region Dizi Bellek Adresi Sorusu
+
+        /*4.	int tipindeki x=new[4,5,6,7] şeklinde tanımlanmıştır.  
+         *      Hafıza yerleşiminde Dizinin x[3,4,2,4]   elemanı ile  
+         *      x[1,4,3,4] elemanı arasında kaç bytelık fark vardır hesaplayınız? (15 p)
+         */
+
+        //Dizilerde adres bulma
+        //int[b1,b2,b3,b4,b5,b6]
+        //int[i1,i2,i3,i4,i5,i6]
+
+        //i1*b2*b3*b4*b5*b6*4 + i2*b3*b4*b5*b6*4 + i3*b4*b5*b6*4 + i4*b5*b6*4 + i5*b6*4 + i6*4
+        //x[4, 5, 6, 7];
+        //x[3, 4, 2, 4];
+
+        //1000 -> başlangıç adresi
+        //1000 + 3*5*6*7*4 + 4*6*7*4 + 2*7*4 + 4*4 = 4264
+
+
+        //x[4, 5, 6, 7];
+        //x[1, 4, 3, 4];
+
+        //1000 -> başlangıç adresi
+        //1000 + 1*5*6*7*4 + 4*6*7*4 + 3*7*4 + 4*4 = 2612
+
+
+        #endregion
+
+
+            #region  İnfix to Postfix  Sorusu
+
+        /*5.	a+b*((c/d^5)-26+a)/b olarak verilen infix ifadenin postfixini stak kullanarak adım adım açıklayarak bulunuz. (10p)*/
+
+        /*Operatör öncelik sırası '+' = '-'   <  '/' = '*'  <  '^'   */
+
+        // postfix :abcd5^/26-a+*b/+
+
+        // stack: '+' operatorü stacka atılır,      stack içi = +
+        // '*' operatorü stacka atılır,             stack içi = +*
+        // '(' , '(' parantezler stacka atılır,     stack içi = +*((
+        // '/' operatörü stacka atılır,             stack içi = +*((/
+        // daha sonra '^' opertaörü geldiği için sol paranteze kadar stack pop edilir. '^' postfix ifadesine yazılır ve '/' pop edilir.  stack içi = +*(
+        // '-' operatörü stacka atılır.             stack içi = +*(-
+        // '+' operatörü stacka atılır ve '-' operatörü pop edilir ve postfix ifadesine yazılır          stack içi = +*(+
+        // ')' parantez stacka atılır. parantezler arasındaki ifadeler postfix ifadesine yazılır         stack içi = +*
+        // '/' operatörü stacka atılır.   '*' operatörü stacktan pop edilir          stack içi = +/
+        // son olarak stackta kalanlar pop edilir.      stack içi = $ (boş)
+
+        #endregion
+
+
+        #endregion
+
+        Console.ReadLine();
         }
     }
 }

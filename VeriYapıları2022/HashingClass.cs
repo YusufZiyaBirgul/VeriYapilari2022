@@ -54,6 +54,7 @@ namespace VeriYapıları2022
 
 
             int indis = hasing(data);
+
             if (hash[indis] == 0)
             {
                 hash[indis] = data;

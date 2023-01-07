@@ -8,6 +8,33 @@ namespace VeriYapıları2022
 {
     class BtreeClass
     {
+        #region TREE VERİ YAPISI
+
+        /* Doğrusal veri yapıları olan diziler, bağlı listeler, yığınlar ve kuyruklardan farklı olarak, 
+         * doğrusal olmayan hiyerarşik bir veri yapısıdır*/
+        /* Döngü içermeyen veri yapısıdır (İki çocuğun birbirine bağlanması). Recursive olarak yazılır*/
+        /* Node (Düğüm)           -> ağacın elemanlarıdır */
+        /* Edges (Dal/Kenar)      -> süğümleri birbirine bağlar*/
+        /* Root (Kök)             -> ağacın en tepesindeki elemanıdır*/
+        /* Parent (baba)          -> Çocuğu olan düğümlerdir*/
+        /* Child (Çocuk)          -> Düğüme bağlı olan alt düğümlerdir*/
+        /* Leaf (Yaprak)          -> Çocuğu olmayan düğümlerdir*/
+        /* Subtree                -> Bir düğümün alt ağaçlarıdır*/
+        /* Sibling (kardeş düğüm) -> Aynı babaya sahip düğümlerdir*/
+        /* Descendant (varisler)  -> Bir düğüme bağlı tüm alt düğümlere o düğümün varisleri denir*/
+        /* Ancestor (ata)         -> Bir düğümden köke kadar izlenen yoldaki diğer tüm düğümler, o düğümün atalardır*/
+        /* Path (yol)             -> Bir düğümün aşşağıya doğru bir başka düğüme gidebilmek için üzerinden geçilmesi gerek düğümlerin listesi */
+        /* Depth of Tree (Ağacın derinliği) -> Kök düğümden en uçtaki yaprak düğüme kadar olan uzaklıkdır / kök düğümün derinliği 1 dir*/
+        /* Derinlik               -> Bir düğümün kök düğüme olan uzaklığıdır*/
+        /* Height (yükseklik)     -> O düğümden kendisiyle ilişkili en uzak yaprak düğüme giden yolun uzunluğudur*/
+        /* Düzey                  -> İki düğüm arasındaki yolun üzerinde bulunan düğümlerin sayısı /Kök düğümün düzeyi 1 / doğrudan köke bağlı düğümlerin düzeyi 2 */
+        /*Degree (derece)         -> Bir düğümün derecesi çocuk sayısına eşittir*/
+        /*https://nerdbook.wordpress.com/2018/03/28/agac-veri-yapisi/ Bu yazdıklarımın şekillerine bu linkten ulaşabilirsiniz*/
+
+
+
+        #endregion
+
 
         #region BTREE METOTLARI
 
@@ -28,7 +55,6 @@ namespace VeriYapıları2022
             public int data;
             public blockBtree left;
             public blockBtree right;
-
         }
 
         static void btreeYaz(int parent)
@@ -72,13 +98,13 @@ namespace VeriYapıları2022
         }
 
         static int sayac = 0;
-        static void findElementinBtree(blockBtree bt)
+        static void findElementInBtree(blockBtree bt)
         {
             if (bt == null) return;
             if (bt.data == 76) sayac++;
 
-            findElementinBtree(bt.left);
-            findElementinBtree(bt.right);
+            findElementInBtree(bt.left);
+            findElementInBtree(bt.right);
         }
 
         static void btreeElemanEkle(blockBtree btree, int eklenecekVeri)
@@ -90,7 +116,7 @@ namespace VeriYapıları2022
                 return;
             }
 
-            if (btree.data < eklenecekVeri)
+            if (btree.data < eklenecekVeri) //30
             {
                 if (btree.right != null)
                 {
@@ -124,7 +150,7 @@ namespace VeriYapıları2022
             }
         }
 
-        static int btreeSearch(blockBtree btree, int arananDeger)
+        static int btreeSearch(blockBtree btree, int arananDeger) //30
         {
             if (btree == null) return 0;
             if (btree.data == arananDeger) return 1;
@@ -149,7 +175,8 @@ namespace VeriYapıları2022
             bt.right = btreeLinkedListOlustur(btree, indis * 2 + 2);
             return bt;
         }
-
+        
+        static int[] btree = { 50, 17, 72, 12, 23, 54, 76, 9, 14, 19, 0, 0, 67 };
 
         #endregion
 
@@ -201,7 +228,7 @@ namespace VeriYapıları2022
              }*/
             #endregion
 
-            #region BTREE İçerisinde Eleman Bulma //ANLAMADIĞIM BİR SEBEPTEN DOLAYI SONUCU GÖSTERMEDEN UYGULAMA KAPANIYOR
+            #region BTREE İçerisinde Eleman Bulma 
             /*
             Stack<int> st = new Stack<int>();
             st.Push(0); // Root eleman
@@ -211,7 +238,7 @@ namespace VeriYapıları2022
                 int indis = st.Pop();
                 Console.WriteLine(btree[indis]);
                 
-                if (btree[indis] == 76) { bulundu = true; return; }
+                if (btree[indis] == 76) { bulundu = true; break; }
                 
                 indis = indis * 2 + 1;
 

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BtreeClass.cs" />
     <Compile Include="DizilerClass.cs" />
+    <Compile Include="HashingClass.cs" />
     <Compile Include="QueueClass.cs" />
     <Compile Include="StackClass.cs" />
     <Compile Include="TekYönlüLinkedList.cs" />

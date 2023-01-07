@@ -8,6 +8,21 @@ namespace VeriYapıları2022
 {
     public class StackClass
     {
+        #region STACK VERİ YAPISI
+
+        /* Yığın veri yapısında ara elemanlara doğrudan erişim yoktur.*/
+        /* LİFO -> Last in First out / Son giren İlk çıkar prensibi ile verilere erişilir*/
+        /* Yığın veri yapısında, dizilerden farkılı olarak veriye ancak belirli bir sırayla erişilebilir*/
+        /* Yığının eleman sayısı çalışma zamanında arttırılıp azaltılabilir*/
+        /* Yığından eleman ekleme çıkarma işlem sadece en üstten(top) yapılır*/
+        /* Yığın için yeterli bellek kalmazsa STACKOVERFLOW hatası alınır*/
+        /* PUSH -> Yığına eleman ekleme */
+        /* POP  -> Yığından eleman çıkarma*/
+        /* PEEK -> Yığının en üstündeki elemanı döndürür*/
+        /* İşletim sistemleri, oyun yazılımları, bazı yazılımlarda, compiler, infix ve postfix yapılarında, metot çağırmalarında stack kullanır
+*/
+        #endregion
+
 
         #region STACK METOTLARI
 
@@ -24,6 +39,8 @@ namespace VeriYapıları2022
         static int sp = -1; //STACK POİNT herzaman -1 den başlar
         static void push(int data) // STACK'a eleman ekle
         {
+            if (sp == stack.Length - 1) Console.WriteLine("Stack Dolu. Eleman Eklenemez");
+
             sp++;
             stack[sp] = data;
             //stack[++sp]=data; şeklinde de yazılabilir
@@ -31,18 +48,25 @@ namespace VeriYapıları2022
 
         static int pop() //STACK'tan eleman çıkarma
         {
+            if (sp == -1) 
+            { 
+                Console.WriteLine("Stack Boş. Silinecek eleman yok"); 
+                return 0; 
+            }
+
             int data = stack[sp];
             sp--;
             return data;
         }
+
+        static Block spLinked = null;
 
         static int peek() // Stacktaki o anki bulunan elemana bakar
         {
             return spLinked.data;
         }
 
-        static Block spLinked = null;
-        static void linkedPush(int data)
+        static void linkedPush(int data) //Çiftli linked list 
         {
             Block bl = new Block();
             bl.data = data;
@@ -59,12 +83,13 @@ namespace VeriYapıları2022
         }
 
 
-        static int linkedPop()
+        static int linkedPop() //Çiftli linked list 
         {
             int data = spLinked.data;
             spLinked = spLinked.next;
             return data;
         }
+
         static int carp(int a, int b)
         {
             return a * b;
@@ -81,6 +106,7 @@ namespace VeriYapıları2022
         {
             return a + b;
         }
+
         #endregion
 
         public static void StackMetot() // BU KODLARI MAİN METODUNDA ÇALIŞTIRIN
@@ -208,7 +234,7 @@ namespace VeriYapıları2022
 
             //string infix = "a+b*c-d";
             //string postfix = "";
-            //string op = "$(+-*/";
+            //string op = "$(+-*/)";
 
             /*string oncelik = "0011220";
             push((byte)'$');
@@ -281,8 +307,8 @@ namespace VeriYapıları2022
                  int karakter1 = st.Pop();
                  int sonuc = 0;
 
-                 if (postfix[i] == '*') sonuc = bolme(karakter1, karakter2);
-                 if (postfix[i] == '/') sonuc = carp(karakter2, karakter1);
+                 if (postfix[i] == '*') sonuc = carp(karakter1, karakter2);
+                 if (postfix[i] == '/') sonuc = bolme(karakter2, karakter1);
                  if (postfix[i] == '+') sonuc = topla(karakter2, karakter1);
                  if (postfix[i] == '-') sonuc = fark(karakter2, karakter1);
                  st.Push(sonuc);
